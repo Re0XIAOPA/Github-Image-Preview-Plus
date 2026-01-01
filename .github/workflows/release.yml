@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'JavaScript/gipuls.js'
+      - 'JavaScript/**'
 
 jobs:
   release:
@@ -34,23 +34,30 @@ jobs:
       - name: 检查提交类型以确定版本更新
         id: version_bump
         run: |
-          COMMIT_TYPE=$(git log --oneline -1 | head -c 4)
+          COMMIT_MESSAGE=$(git log --oneline -1)
           LAST_VERSION=${{ steps.last_version.outputs.last_version }}
           IFS='.' read -ra VERSION_PARTS <<< "$LAST_VERSION"
           MAJOR=${VERSION_PARTS[0]}
           MINOR=${VERSION_PARTS[1]}
           PATCH=${VERSION_PARTS[2]}
           
-          if [ "$COMMIT_TYPE" = "feat" ]; then
+          # 检查是否包含破坏性变更标识
+          if [[ "$COMMIT_MESSAGE" =~ BREAKING[[:space:]]CHANGE ]] || [[ "$COMMIT_MESSAGE" =~ ([Mm]ajor|[Bb]reaking) ]]; then
+            # 破坏性变更，增加主版本号
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+            NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          elif [ "${COMMIT_MESSAGE:0:4}" = "feat" ]; then
             # 新功能提交，增加次版本号
             MINOR=$((MINOR + 1))
             PATCH=0
             NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          elif [ "$COMMIT_TYPE" = "fix" ]; then
+          elif [ "${COMMIT_MESSAGE:0:4}" = "fix" ]; then
             # 修复提交，增加修订号
             PATCH=$((PATCH + 1))
             NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          elif [ "$COMMIT_TYPE" = "refa" ] || [ "$COMMIT_TYPE" = "perf" ]; then
+          elif [[ "${COMMIT_MESSAGE:0:4}" = "refa" ]] || [[ "${COMMIT_MESSAGE:0:4}" = "perf" ]]; then
             # 重构或性能优化，增加次版本号
             MINOR=$((MINOR + 1))
             PATCH=0
@@ -89,6 +96,7 @@ jobs:
             ## 更新内容
             - 自动发布新版本
             - 根据提交类型更新版本号
+            - major/breaking: 主版本号（破坏性变更）
             - feat: 新功能
             - fix: 问题修复
             - refactor: 代码重构
