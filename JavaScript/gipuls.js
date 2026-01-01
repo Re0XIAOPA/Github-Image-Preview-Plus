@@ -2,7 +2,7 @@
 // @name         Github图片预览增强
 // @name:en      Github Image Preview Plus
 // @namespace    https://github.com/Re0XIAOPA/Github-Image-Preview-Plus
-// @version      0.1.1
+// @version      0.1.2
 // @description  增强GitHub图片浏览体验 - 支持单击丝滑预览（自适应显示/缩放/拖拽/左右切换/下载），双击跳转原图，快捷键操作，兼容多种GitHub页面
 // @description:en  Enhance GitHub image browsing experience - supports smooth preview with single click (adaptive display/zoom/drag/switch/download), double-click to jump to original image, keyboard shortcuts, compatible with various GitHub pages
 // @author       Re0XIAOPA
