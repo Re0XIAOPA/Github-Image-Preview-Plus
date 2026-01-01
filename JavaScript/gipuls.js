@@ -12,6 +12,48 @@
 // @icon         data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDEuMEM1LjkyMyAxIDEgNS45MjMgMSAxMmMwIDQuODY3IDMuMTQ5IDguOTc5IDcuNTIxIDEwLjQzNi41NS4wOTYuNzU2LS4yMzMuNzU2LS41MjIgMC0uMjYyLS4wMTMtMS4xMjgtLjAxMy0yLjA0OS0yLjc2NC41MDktMy40NzktLjY3NC0zLjY5OS0xLjI5Mi0uMTI0LS4zMTctLjY2LTEuMjkzLTEuMTI3LTEuNTU0LS4zODUtLjIwNy0uOTM2LS43MTUtLjAxNC0uNzI5Ljg2Ni0uMDE0IDEuNDg1Ljc5NyAxLjY5MSAxLjEyOC45OSAxLjY2MyAyLjU3MSAxLjE5NiAzLjIwNC45MDcuMDk2LS43MTUuMzg1LTEuMTk2LjcwMS0xLjQ3MS0yLjQ0OC0uMjc1LTUuMDA1LTEuMjI0LTUuMDA1LTUuNDMyIDAtMS4xOTYuNDI2LTIuMTg2IDEuMTI4LTIuOTU2LS4xMTEtLjI3NS0uNDk2LTEuNDAyLjExLTIuOTE1IDAgMCAuOTIxLS4yODggMy4wMjQgMS4xMjhhMTAuMTkzIDEwLjE5MyAwIDAgMSAyLjc1LS4zNzFjLjkzNiAwIDEuODcxLjEyMyAyLjc1LjM3MSAyLjEwNC0xLjQzIDMuMDI1LTEuMTI4IDMuMDI1LTEuMTI4LjYwNSAxLjUxMy4yMjEgMi42NC4xMSAyLjkxNS43MDEuNzcgMS4xMjcgMS43NDcgMS4xMjcgMi45NTYgMCA0LjIyMi0yLjU3MSA1LjE1Ny01LjAxOSA1LjQzMi4zOTkuMzQ0Ljc0MyAxLjAwNC43NDMgMi4wMzUgMCAxLjQ3MS0uMDE0IDIuNjU0LS4wMTQgMy4wMjUgMCAuMjg5LjIwNi42MzIuNzU2LjUyMkMxOS44NTEgMjAuOTc5IDIzIDE2Ljg1NCAyMyAxMmMwLTYuMDc3LTQuOTIyLTExLTExLTExWiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg==
 // ==/UserScript==
 
+
+/***
+ *               ii.                                         ;9ABH,          
+ *              SA391,                                    .r9GG35&G          
+ *              &#ii13Gh;                               i3X31i;:,rB1         
+ *              iMs,:,i5895,                         .5G91:,:;:s1:8A         
+ *               33::::,,;5G5,                     ,58Si,,:::,sHX;iH1        
+ *                Sr.,:;rs13BBX35hh11511h5Shhh5S3GAXS:.,,::,,1AG3i,GG        
+ *                .G51S511sr;;iiiishS8G89Shsrrsh59S;.,,,,,..5A85Si,h8        
+ *               :SB9s:,............................,,,.,,,SASh53h,1G.       
+ *            .r18S;..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,....,,.1H315199,rX,       
+ *          ;S89s,..,,,,,,,,,,,,,,,,,,,,,,,....,,.......,,,;r1ShS8,;Xi       
+ *        i55s:.........,,,,,,,,,,,,,,,,.,,,......,.....,,....r9&5.:X1       
+ *       59;.....,.     .,,,,,,,,,,,...        .............,..:1;.:&s       
+ *      s8,..;53S5S3s.   .,,,,,,,.,..      i15S5h1:.........,,,..,,:99       
+ *      93.:39s:rSGB@A;  ..,,,,.....    .SG3hhh9G&BGi..,,,,,,,,,,,,.,83      
+ *      G5.G8  9#@@@@@X. .,,,,,,.....  iA9,.S&B###@@Mr...,,,,,,,,..,.;Xh     
+ *      Gs.X8 S@@@@@@@B:..,,,,,,,,,,. rA1 ,A@@@@@@@@@H:........,,,,,,.iX:    
+ *     ;9. ,8A#@@@@@@#5,.,,,,,,,,,... 9A. 8@@@@@@@@@@M;    ....,,,,,,,,S8    
+ *     X3    iS8XAHH8s.,,,,,,,,,,...,..58hH@@@@@@@@@Hs       ...,,,,,,,:Gs   
+ *    r8,        ,,,...,,,,,,,,,,.....  ,h8XABMMHX3r.          .,,,,,,,.rX:  
+ *   :9, .    .:,..,:;;;::,.,,,,,..          .,,.               ..,,,,,,.59  
+ *  .Si      ,:.i8HBMMMMMB&5,....                    .            .,,,,,.sMr
+ *  SS       :: h@@@@@@@@@@#; .                     ...  .         ..,,,,iM5
+ *  91  .    ;:.,1&@@@@@@MXs.                            .          .,,:,:&S
+ *  hS ....  .:;,,,i3MMS1;..,..... .  .     ...                     ..,:,.99
+ *  ,8; ..... .,:,..,8Ms:;,,,...                                     .,::.83
+ *   s&: ....  .sS553B@@HX3s;,.    .,;13h.                            .:::&1
+ *    SXr  .  ...;s3G99XA&X88Shss11155hi.                             ,;:h&,
+ *     iH8:  . ..   ,;iiii;,::,,,,,.                                 .;irHA  
+ *      ,8X5;   .     .......                                       ,;iihS8Gi
+ *         1831,                                                 .,;irrrrrs&@
+ *           ;5A8r.                                            .:;iiiiirrss1H
+ *             :X@H3s.......                                .,:;iii;iiiiirsrh
+ *              r#h:;,...,,.. .,,:;;;;;:::,...              .:;;;;;;iiiirrss1
+ *             ,M8 ..,....,.....,,::::::,,...         .     .,;;;iiiiiirss11h
+ *             8B;.,,,,,,,.,.....          .           ..   .:;;;;iirrsss111h
+ *            i@5,:::,,,,,,,,.... .                   . .:::;;;;;irrrss111111
+ *            9Bi,:,,,,......                        ..r91;;;;;iirrsss1ss1111
+ */
+
+
 (function () {
     'use strict';
 
