@@ -3,11 +3,14 @@ name: 自动发布
 permissions:
   contents: write
   pull-requests: write
+  actions: write
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'JavaScript/**'
 
 # 关键：只有当提交消息符合规范时才触发
 jobs:
@@ -22,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 获取上次版本号（从 tag）
+      - name: 获取上次版本号(从tag)
         id: last_version
         run: |
           LAST_TAG=$(git tag --sort=-v:refname | head -n1)
@@ -46,22 +49,22 @@ jobs:
           NEW_VERSION="$LAST_VERSION"
           
           # Conventional Commits 标准判断
-          if [[ "$COMMIT_MSG" == *"BREAKING CHANGE"* ]] || [[ "$COMMIT_MSG" == feat!* ]] || [[ "$COMMIT_MSG" == *"!"* && "$COMMIT_MSG" == feat:* ]]; then
+          if [[ "$COMMIT_MSG" == *"BREAKING CHANGE"* ]] || [[ "$COMMIT_MSG" == *"feat!"* ]] || [[ "$COMMIT_MSG" == *"!"* && "$COMMIT_MSG" == *"feat:"* ]]; then
             # 破坏性变更：major +
             MAJOR=$((MAJOR + 1))
             MINOR=0
             PATCH=0
             NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          elif [[ "$COMMIT_MSG" == feat(* ]] || [[ "$COMMIT_MSG" == feat:* ]]; then
+          elif [[ "$COMMIT_MSG" == *"feat:"* ]]; then
             # 新功能：minor +
             MINOR=$((MINOR + 1))
             PATCH=0
             NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          elif [[ "$COMMIT_MSG" == fix(* ]] || [[ "$COMMIT_MSG" == fix:* ]]; then
+          elif [[ "$COMMIT_MSG" == *"fix:"* ]]; then
             # 修复：patch +
             PATCH=$((PATCH + 1))
             NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          elif [[ "$COMMIT_MSG" == perf(* ]] || [[ "$COMMIT_MSG" == perf:* ]] || [[ "$COMMIT_MSG" == refactor(* ]] || [[ "$COMMIT_MSG" == refactor:* ]]; then
+          elif [[ "$COMMIT_MSG" == *"perf:"* ]] || [[ "$COMMIT_MSG" == *"refactor:"* ]]; then
             # 性能优化或重构：minor +
             MINOR=$((MINOR + 1))
             PATCH=0
