@@ -15,8 +15,10 @@
     'use strict';
 
     // ==================== 样式 ====================
+    // 动态创建并添加预览相关的CSS样式
     const style = document.createElement('style');
     style.textContent = `
+        // 图片预览遮罩层样式 - 全屏黑色半透明背景
         #gh-img-preview-mask {
             position: fixed;
             inset: 0;
@@ -30,11 +32,13 @@
             opacity: 0;
             transition: opacity 0.3s ease;
         }
+        // 激活预览时的遮罩层样式
         body.img-preview-active #gh-img-preview-mask {
             display: flex;
             opacity: 1;
         }
 
+        // 图片容器样式 - 用于缩放和拖拽变换
         #gh-img-preview-container {
             position: relative;
             cursor: move;
@@ -55,6 +59,7 @@
             user-select: none;
             pointer-events: none;
         }
+        // 图片加载完成后的样式
         #gh-img-preview-img.loaded {
             opacity: 1;
         }
@@ -68,6 +73,7 @@
             gap: 12px;
             z-index: 40;
         }
+        // 下载和关闭按钮基础样式
         #gh-img-preview-download, #gh-img-preview-close {
             width: 36px;
             height: 36px;
@@ -81,13 +87,16 @@
             border: 2px solid rgba(255,255,255,0.3);
             backdrop-filter: blur(4px);
         }
+        // 按钮悬停效果
         #gh-img-preview-download:hover, #gh-img-preview-close:hover {
             transform: scale(1.15);
             border-color: white;
         }
+        // 关闭按钮悬停时的特殊样式
         #gh-img-preview-close:hover {
             background: rgba(220,38,38,0.9);
         }
+        // SVG图标的样式
         #gh-img-preview-controls svg {
             width: 18px;
             height: 18px;
@@ -115,13 +124,16 @@
             opacity: 0.8;
             z-index: 30;
         }
+        // 左右按钮位置
         #gh-img-preview-prev { left: 30px; }
         #gh-img-preview-next { right: 30px; }
+        // 左右按钮悬停效果
         #gh-img-preview-prev:hover, #gh-img-preview-next:hover {
             opacity: 1;
             background: rgba(0,0,0,0.85);
             transform: translateY(-50%) scale(1.15);
         }
+        // 左右切换按钮SVG图标样式
         #gh-img-preview-prev svg, #gh-img-preview-next svg {
             width: 30px;
             height: 30px;
@@ -131,11 +143,13 @@
             stroke-linejoin: round;
             fill: none;
         }
+        // 禁用状态的按钮样式
         #gh-img-preview-prev.disabled, #gh-img-preview-next.disabled {
             opacity: 0.3;
             cursor: not-allowed;
         }
 
+        // 移动端适配样式
         @media (max-width: 768px) {
             #gh-img-preview-controls { top: 12px; right: 12px; gap: 10px; }
             #gh-img-preview-download, #gh-img-preview-close {
@@ -149,7 +163,8 @@
     `;
     document.head.appendChild(style);
 
-    // ==================== DOM ====================
+    // ==================== DOM元素创建 ====================
+    // 创建预览界面的HTML结构
     const overlayHTML = `
         <div id="gh-img-preview-mask">
             <div id="gh-img-preview-container">
@@ -169,6 +184,7 @@
     `;
     document.body.insertAdjacentHTML('beforeend', overlayHTML);
 
+    // 获取DOM元素引用
     const mask = document.getElementById('gh-img-preview-mask');
     const container = document.getElementById('gh-img-preview-container');
     const imgEl = document.getElementById('gh-img-preview-img');
@@ -177,22 +193,29 @@
     const prevBtn = document.getElementById('gh-img-preview-prev');
     const nextBtn = document.getElementById('gh-img-preview-next');
 
-    let scale = 1, tx = 0, ty = 0, dragging = false, startX, startY;
-    let currentImages = [], currentIndex = 0;
-    let clickTimer = null;
+    // ==================== 状态变量 ====================
+    // 图片变换相关变量
+    let scale = 1, tx = 0, ty = 0; // 缩放比例和位置偏移
+    let dragging = false, startX, startY; // 拖拽状态
+    let currentImages = [], currentIndex = 0; // 当前页面图片列表和索引
+    let clickTimer = null; // 用于区分单击和双击的计时器
 
+    // ==================== 核心功能函数 ====================
+    // 重置图片变换状态（缩放和位置）
     function resetTransform() {
         scale = 1; tx = ty = 0;
         container.style.transform = 'translate(0px,0px) scale(1)';
         imgEl.classList.remove('loaded');
     }
 
+    // 关闭预览功能
     function closePreview() {
         document.body.classList.remove('img-preview-active');
         document.body.style.overflow = '';
         setTimeout(resetTransform, 300);
     }
 
+    // 下载当前预览图片
     function downloadImage() {
         const src = imgEl.src;
         const filename = src.split('/').pop().split('?')[0] || 'github-image.png';
@@ -205,11 +228,13 @@
         });
     }
 
+    // 更新左右切换按钮的可用状态
     function updateButtons() {
         prevBtn.classList.toggle('disabled', currentIndex <= 0);
         nextBtn.classList.toggle('disabled', currentIndex >= currentImages.length - 1);
     }
 
+    // 根据索引加载指定图片
     function loadImageByIndex(idx) {
         if (idx < 0 || idx >= currentImages.length) return;
         currentIndex = idx;
@@ -220,26 +245,34 @@
         updateButtons();
     }
 
+    // 打开图片预览功能
     function openPreview(clickedImg) {
+        // 获取当前页面所有有效的图片元素
         currentImages = Array.from(document.querySelectorAll('.markdown-body img, .comment-body img, .blob-wrapper img'))
             .filter(el => !el.src.endsWith('.svg') && !el.closest('[data-lightbox]') && el.src);
 
+        // 确定当前点击图片在图片列表中的索引
         currentIndex = currentImages.indexOf(clickedImg);
         if (currentIndex === -1) currentIndex = 0;
 
+        // 加载并显示当前图片
         loadImageByIndex(currentIndex);
         document.body.classList.add('img-preview-active');
         document.body.style.overflow = 'hidden';
         updateButtons();
     }
 
+    // 为页面上的图片绑定点击事件
     function bindImages() {
         document.querySelectorAll('.markdown-body img, .comment-body img, .blob-wrapper img').forEach(el => {
+            // 跳过已绑定事件的图片、SVG图片和已包含lightbox的图片
             if (el.dataset.previewBound || el.src.endsWith('.svg') || el.closest('[data-lightbox]')) return;
 
+            // 标记图片为已绑定
             el.dataset.previewBound = 'true';
             el.dataset.previewSrc = el.currentSrc || el.src;
 
+            // 绑定点击事件，实现单击预览、双击跳转功能
             el.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -262,13 +295,15 @@
         });
     }
 
-    // ==================== 事件 ====================
+    // ==================== 事件监听 ====================
+    // 遮罩层点击关闭预览
     mask.addEventListener('click', e => e.target === mask && closePreview());
     closeBtn.addEventListener('click', closePreview);
     downloadBtn.addEventListener('click', downloadImage);
     prevBtn.addEventListener('click', () => loadImageByIndex(currentIndex - 1));
     nextBtn.addEventListener('click', () => loadImageByIndex(currentIndex + 1));
 
+    // 键盘事件监听
     document.addEventListener('keydown', e => {
         if (!document.body.classList.contains('img-preview-active')) return;
         if (e.key === 'Escape') closePreview();
@@ -276,7 +311,7 @@
         if (e.key === 'ArrowRight') loadImageByIndex(currentIndex + 1);
     });
 
-    // 缩放（以鼠标为中心）
+    // 鼠标滚轮缩放功能（以鼠标为中心）
     container.addEventListener('wheel', e => {
         e.preventDefault();
         const rect = container.getBoundingClientRect();
@@ -290,7 +325,7 @@
         container.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
     }, { passive: false });
 
-    // 拖拽
+    // 图片拖拽功能
     container.addEventListener('mousedown', e => {
         if (e.button !== 0) return;
         e.preventDefault();
@@ -300,6 +335,7 @@
         container.style.cursor = 'grabbing';
     });
 
+    // 拖拽过程中的位置更新
     document.addEventListener('mousemove', e => {
         if (!dragging) return;
         tx = e.clientX - startX;
@@ -307,6 +343,7 @@
         container.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
     });
 
+    // 结束拖拽
     document.addEventListener('mouseup', () => {
         if (dragging) {
             dragging = false;
@@ -314,15 +351,16 @@
         }
     });
 
-    // 双击复位
+    // 双击复位功能（重置缩放和位置）
     container.addEventListener('dblclick', () => {
         scale = 1; tx = ty = 0;
         container.style.transform = 'translate(0px,0px) scale(1)';
     });
 
     // ==================== 初始化 ====================
+    // 使用MutationObserver监听DOM变化，动态为新添加的图片绑定事件
     const observer = new MutationObserver(bindImages);
     observer.observe(document.body, { childList: true, subtree: true });
-    bindImages();
+    bindImages(); // 初始绑定页面上已存在的图片
 
 })();
