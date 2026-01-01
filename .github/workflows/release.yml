@@ -12,12 +12,9 @@ on:
     paths:
       - 'JavaScript/**'
 
-# 关键：只有当提交消息符合规范时才触发
 jobs:
   release:
     runs-on: ubuntu-latest
-    # 这里是核心：只在提交消息包含 feat: / fix: 等时运行
-    if: ${{ contains(github.event.head_commit.message, 'feat:') || contains(github.event.head_commit.message, 'fix:') || contains(github.event.head_commit.message, 'refactor:') || contains(github.event.head_commit.message, 'perf:') || contains(github.event.head_commit.message, 'feat!') || contains(github.event.head_commit.message, 'BREAKING CHANGE') }}
 
     steps:
       - name: 检出代码
@@ -35,7 +32,7 @@ jobs:
             echo "last_version=${LAST_TAG#v}" >> $GITHUB_OUTPUT
           fi
 
-      - name: 根据最新提交计算新版本号
+      - name: 计算新版本号
         id: version_bump
         run: |
           COMMIT_MSG="${{ github.event.head_commit.message }}"
@@ -46,38 +43,24 @@ jobs:
           MINOR=${PARTS[1]:-0}
           PATCH=${PARTS[2]:-0}
 
-          NEW_VERSION="$LAST_VERSION"
-          
-          # Conventional Commits 标准判断
-          if [[ "$COMMIT_MSG" == *"BREAKING CHANGE"* ]] || [[ "$COMMIT_MSG" == *"feat!"* ]] || [[ "$COMMIT_MSG" == *"!"* && "$COMMIT_MSG" == *"feat:"* ]]; then
-            # 破坏性变更：major +
+          # 根据提交消息决定版本号更新策略
+          if [[ "$COMMIT_MSG" == *"BREAKING CHANGE"* ]] || [[ "$COMMIT_MSG" == *"major:"* ]] || [[ "$COMMIT_MSG" == *"major!"* ]]; then
+            # 主版本更新
             MAJOR=$((MAJOR + 1))
             MINOR=0
             PATCH=0
-            NEW_VERSION="$MAJOR.$MINOR.$PATCH"
           elif [[ "$COMMIT_MSG" == *"feat:"* ]]; then
-            # 新功能：minor +
+            # 次版本更新
             MINOR=$((MINOR + 1))
             PATCH=0
-            NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          elif [[ "$COMMIT_MSG" == *"fix:"* ]]; then
-            # 修复：patch +
-            PATCH=$((PATCH + 1))
-            NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          elif [[ "$COMMIT_MSG" == *"perf:"* ]] || [[ "$COMMIT_MSG" == *"refactor:"* ]]; then
-            # 性能优化或重构：minor +
-            MINOR=$((MINOR + 1))
-            PATCH=0
-            NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          fi
-
-          # 如果版本没变，就跳过发布
-          if [ "$NEW_VERSION" = "$LAST_VERSION" ]; then
-            echo "skip_release=true" >> $GITHUB_OUTPUT
           else
-            echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-            echo "skip_release=false" >> $GITHUB_OUTPUT
+            # 修订版本更新（默认）
+            PATCH=$((PATCH + 1))
           fi
+          
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "skip_release=false" >> $GITHUB_OUTPUT
 
       # 以下步骤只有在版本需要更新时才执行
       - name: 更新脚本中的版本号（可选）
