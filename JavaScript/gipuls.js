@@ -1,6 +1,5 @@
 // ==UserScript==
-// @name         Github图片预览增强
-// @name:en      Github Image Preview Plus
+// @name         Github图片预览增强(Github Image Preview Plus)
 // @namespace    https://github.com/Re0XIAOPA/Github-Image-Preview-Plus
 // @version      0.0.3
 // @description  增强GitHub图片浏览体验 - 支持单击丝滑预览（自适应显示/缩放/拖拽/左右切换/下载），双击跳转原图，快捷键操作，兼容多种GitHub页面
