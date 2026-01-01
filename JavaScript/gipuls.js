@@ -2,7 +2,7 @@
 // @name         Github图片预览增强
 // @name:en      Github Image Preview Plus
 // @namespace    https://github.com/Re0XIAOPA/Github-Image-Preview-Plus
-// @version      0.0.1
+// @version      0.0.2
 // @description  单击丝滑预览（完整自适应显示图片/缩放/拖拽/左右切换/下载）；双击跳转原图页面；移除全屏功能
 // @author       Re0XIAOPA
 // @license      MIT
