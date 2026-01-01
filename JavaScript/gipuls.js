@@ -14,8 +14,8 @@
 // @license      MIT
 // @homepage     https://github.com/Re0XIAOPA/Github-Image-Preview-Plus
 // @supportURL   https://github.com/Re0XIAOPA/Github-Image-Preview-Plus/issues
-// @updateURL    https://github.com/Re0XIAOPA/Github-Image-Preview-Plus/refs/main/gipuls.meta.js
-// @downloadURL  https://github.com/Re0XIAOPA/Github-Image-Preview-Plus/refs/main/gipuls.js
+// @updateURL    https://raw.githubusercontent.com/Re0XIAOPA/Github-Image-Preview-Plus/main/JavaScript/gipuls.js
+// @downloadURL  https://raw.githubusercontent.com/Re0XIAOPA/Github-Image-Preview-Plus/main/JavaScript/gipuls.js
 
 // ==/UserScript==
 
