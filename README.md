@@ -18,10 +18,24 @@
 | ⌨️ 快捷键支持 | 支持ESC关闭、方向键切换等快捷键操作 |
 | 🎨 现代UI设计 | 采用现代化UI设计，美观易用 |
 
-## 安装方法
+## 安装
 
-1. 安装用户脚本管理器（如 Tampermonkey、Greasemonkey、ScriptCat）
-2. [安装脚本](https://scriptcat.org/zh-CN/script-show-page/5011)
+1. 安装用户脚本管理器
+
+| 浏览器 | 扩展名称 | 链接 |
+|--------|----------|------|
+| 微软 Edge | Tampermonkey | [安装](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd) |
+| 微软 Edge | ScriptCat | [安装](https://microsoftedge.microsoft.com/addons/detail/scriptcat/liilgpjgabokdklappibcjfablkpcekh) |
+| 谷歌 Chrome | Tampermonkey | [安装](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) |
+| 谷歌 Chrome | ScriptCat | [安装](https://chromewebstore.google.com/detail/scriptcat/ndcooeababalnlpkfedmmbbbgkljhpjf) |
+| 火狐 Firefox | Greasemonkey | [安装](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) |
+
+2. 安装脚本
+
+| 平台 | 链接 |
+|------|------|
+| GreasyFork | [安装](https://greasyfork.org/zh-CN/scripts/561026-github%E5%9B%BE%E7%89%87%E9%A2%84%E8%A7%88%E5%A2%9E%E5%BC%BA) |
+| ScriptCat | [安装](https://scriptcat.org/zh-CN/script-show-page/5011) |
 
 ## 使用方法
 
@@ -48,4 +62,4 @@
 
 ## 许可证
 
-MIT
+LICENSE [MIT](https://github.com/Re0XIAOPA/Github-Image-Preview-Plus?tab=MIT-1-ov-file)
